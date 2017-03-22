@@ -16,23 +16,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @property Imap $imap
  */
-class Imap_controller extends CI_Controller {
-
-	public function __construct()
-	{
-		parent::__construct();
-		$this->load->library('imap');
-	}
-
+class ImapTest extends CI_Controller {
 
 	public function index()
 	{
+		$this->config->load('imap');
+		$this->load->library('imap');
+
 		$config = array(
-			'host'     => 'imap-mail.outlook.com',
-			'encrypto' => 'ssl',
-			'user'     => 'phpimapclient@outlook.com',
-			'pass'     => 'Abcd12345**'
+			'host'     => config_item('imap_host'),
+			'encrypto' => config_item('imap_encrypto'),
+			'user'     => config_item('imap_user'),
+			'pass'     => config_item('imap_pass')
 		);
+
 		$this->imap->imap_connect($config);
 
 		$data['output'] = array(
@@ -52,8 +49,8 @@ class Imap_controller extends CI_Controller {
 
 		//$data['output']['session'] = $this->session->all_userdata();
 
-		$data['output']['elapsed_time'] = $this->benchmark->elapsed_time();
-		$data['output']['memory_usage'] = $this->benchmark->memory_usage();
+		//$data['output']['elapsed_time'] = $this->benchmark->elapsed_time();
+		//$data['output']['memory_usage'] = $this->benchmark->memory_usage();
 
 		$this->load->view('view', $data);
 	}
